@@ -1,0 +1,102 @@
+
+
+Algorithm 
+FINAL PROJECT
+
+Start.h
+
+Private:
+	Int num_equations- the variables indicates how many equations are inputted by the user.
+	vector<vector<double> >donemat_ - is the vector variable for the done matrix.
+	gauss_ - is the variable of Gaussian class type (object of gaussian class).
+	Vector<vector<double> > input_mat – vector variable of the augmented matrix input by the user.
+	
+Public:
+	Start()- default constructor
+Void readmatrix()- reads in the input augmented matrix by asking to plug in each element of the matrix individually.
+Void solve_equations(int method)- function does all the operations of gaussian Jordon elimination within it and prints out the main and the output.
+	~Start()- destructor
+	
+Start.cpp
+Start()- default constructor, gives default value for num_equations as zero. Creates object of gaussian class and puts it on the heap. Uses .clear to clear both donemat and input_mat each time.
+
+Void readmatrix()- reads the elements of the augmented matrix inputted. The first,second,third and fourth element are initialized as double.
+1.	A cout statement is printed to enter the number of equations inputted and that value is stored in num_equations. 
+2.	A for loop is created to loop from i=0 to lesser than num_equation and increment each time.
+3.	Than multiple cout statements are inputted to input each element of the augmented matrix one by one.
+4.	Than the inputs are stored in mat_row variable which is a vector from the end using push_back.
+
+Void solve_equations(int method)
+1.	Returns nothing and has a int parameter. Prints out the main lines of the program which says solving system of equations by gaussian Jordon method.
+2.	Than the readmatrix() function is run to display the commands to input the numbers.
+3.	Than if the parameter passed is 0 it implements the solve(input_mat_) method from gaussian class by calling it through its object gauss_.
+4.	Else if 1 is passed it does other methods if added to the program.
+5.	Nested for loops are made which print out upper_tringularmat which equals to gauss_->solve as many times it is lesser than the size of the upper_triangular_mat.size().
+6.	.size returns the size of the vector.
+
+~Start()
+1.	Deletes gauss_ from the heap.
+
+Gaussian.h
+
+Public:
+std::vector<std::vector< double > > solve(std::vector<std::vector< double> >)- returns a vector and has a vector as parameter , calls all the function in the gaussian class and solves the matrix.
+std::vector<std::vector< double > > reduce_first_col(std::vector<std::vector< double > >)- returns a vector and has a vector parameter, this function takes in a 3 by 4 matrix and returns the same matrix but with the first column zeroed out.
+std::vector<std::vector< double > > reduce_second_col(std::vector<std::vector< double > >)-returns a vector and has a vector parameter, takes in the vector and second column is zeroed out.
+void print_mat(std::vector<std::vector< double> >)- returns void and has a vector parameter and prints the matrix modified.
+std::vector<double> back_substitution(std::vector<std::vector< double > >)- returns a vector<double> and has a parameter of vector<vector<double>>.
+
+Gaussian.cpp
+	
+	std::vector<std::vector< double > > Gaussian::solve(std::vector<std::vector< double> > mat)
+1.	Initializes first_row_zeroed_mat and second_row_zeroed_mat as a vector<vector<double>>.
+2.	Equates both the variables initialized to the function reduce_first_col(mat) and reduce_second_col(first_row_zeroed_mat).
+3.	Then use the print_mat function with first_row_zeroed and second row zeroed_mat as parameter and print it out.
+4.	The function returns the second_row_zeroed_mat value.
+
+std::vector<std::vector< double > > Gaussian::reduce_first_col(std::vector<std::vector< double > > mat)
+1.Gets amount by which the second and third rows should be subtracted .
+2. intializes variables row2_multiplier and row3_multiplier to double and equates it to mat the function parameter. By using .at which helps return reference to the element at position n in the vector.
+
+3.row2_multiplier is equated to mat at(1) and (0) position and then multiplied by -1 and row3_multiplier is equated to mat.at(2).at(0) and multiplied by 1.
+4. then modify mat to updated version without zeroes and first calculate the multipliers.
+5. multipliers take second row from first column and negate it and do similar for row 3.
+6. mat.at(1) and at 0 ,1,2,3 is added with row multiplier multiplied with mat at(0) and at(0),(1),(2),(3).
+7. it returns the mat then.
+
+std::vector<std::vector< double > > Gaussian::reduce_second_col(std::vector<std::vector< double > > mat)
+1.	Reduces the second column. Returns a vector<vector<double>> and has a parameter vector<vector<double>> mat.
+2.	Add row3_multiplier*row2 to row3.
+3.	Row3_multipler is equated to mat.at(2).at(1)/mat.at(1).at(1) multiplied by -1.
+4.	Similar to reduce_first_col we equate mat.at(2).at(0),(1),(2),(3) to row3_multiplier multiplied by mat.at(1).at(0),(1),(2),(3).
+5.	Return mat.
+
+void Gaussian::print_mat(std::vector<std::vector< double> > mat)
+1.	Prints out the matrix. There is a nested for loop the first loop controls the row and inner loop controls the column.
+2.	Then after each loop it prints the mat.at(i).at(j) and then prints a newline.
+
+
+std::vector<double> back_substitution(std::vector<std::vector< double > >)
+1.	Performs backsubstitution an input matrix. The input matrix is assumed to be in upper triangular form. Returns a vector of the values for x,y, and z. The first element is the
+    value for x, the second is the value for y, and the third is the value for z The input matrix is also assumed to be 3 by 4.
+2.	Declare a variable xyz_values as a vector<double>.
+3.	Then three variables x,y and z are declared as double. Declaring three variables makes the process explicit.
+4.	Equate z to mat the parameter at(2).at(3) divided by mat.at(2).at(2).
+5.	Equate y to mat at(1).at(3)- (z*mat.at(0).at(2))divided by mat.at(1).at(1).
+6.	Equate x to mat.at(0)at.(3)- (z*mat.at(0).at(2))-(y*mat.at(0).at(1))/mat.at(0).at(0)
+7.	Then print out each of the variable with cout statement.
+8.	Then store each variable in xyz_values and use .push_back to store from back.
+
+Main.cpp
+1.	Makes an object of start class called start and puts it on the heap.
+2.	Using start calls the solve_equations(0) function from start class with parameter int method=0.
+
+Solver.h (abstract class)
+1. It is a abstract class with the solve function which can be inherited by any method class and be defined.
+ 
+
+
+
+
+	
+
